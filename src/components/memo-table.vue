@@ -1,22 +1,10 @@
 <script lang="ts" setup>
 
-import { ref } from "vue";
 import { useMemoStore } from "../stores/memo";
-//import MemoTable from "../components/memo-table.vue";
 
-const text = ref<string>("");
-const { memos, addMemo, deleteMemo } = useMemoStore();
-
-const handleAddButtonClick = (content: string) => {
-    addMemo(content);
-    text.value = "";
-}
 </script>
 
 <template>
-    <el-input v-model="text" placeholder="文章を入力" rows="6" type="textarea" />
-    <el-button type="primary" @click="handleAddButtonClick(text)">Post!</el-button>
-    <h4>最近追加されたメモ</h4>
     <el-table :data="Object.values(memos)">
         <el-table-column fixed prop="date" label="追加日" />
         <el-table-column prop="content" label="コンテンツ" />

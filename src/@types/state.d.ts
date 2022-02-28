@@ -1,4 +1,3 @@
-type EditTextState = {
-    text: string;
-    index: number | null;
+type MemoState = {
+    memos: Record<string, Memo>;
 }

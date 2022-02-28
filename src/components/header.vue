@@ -1,32 +1,27 @@
 <script setup lang="ts">
 
 import { ref } from "vue";
+import { useRouter } from "vue-router";
+import { Search } from "@element-plus/icons";
 
+const router = useRouter();
+
+const keyword = ref<string>("");
 
 </script>
 
 <style scoped>
-/*
-#header {
-    text-align: right; 
-    font-size: 12px;
+
+.keyword-input {
+    width: 20%;
 }
-*/
 
 </style>
 
 <template>
-    <el-header>
-        重要語抽出(仮)
-        <el-button @click="open = true">メニュー</el-button>
-        <el-dialog v-model="open">
-            <p>種類</p>
-            <!-- 値は更新されるが表示が変わらない ダイアログを開き直すと変わってる -->
-            <el-select class="m-2" v-model="noodle_type">
-                <el-option v-for="type in noodle_types" :key="type" :label="type" :value="type" />
-            </el-select>
-            <p>解答可能数</p>
-            <el-input v-model.number="answer_num" />
-        </el-dialog>
+    <el-header style="margin-bottom:4%">
+        <router-link to="/">タイトル未定</router-link>
+        <el-input v-model="keyword" class="keyword-input" />
+        <el-button type="primary" :icon="Search" @click="router.push(`/search?keyword=${keyword}`)" />
     </el-header>
 </template>

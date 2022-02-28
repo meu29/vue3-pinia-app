@@ -1,15 +1,25 @@
-import { createRouter, createWebHistory } from "vue-router";
+import { createRouter, createWebHistory, RouteRecordRaw } from "vue-router";
 import Index from "../pages/index.vue";
-import Test from "./../pages/test.vue";
+import Search from "../pages/search.vue";
 
-const routes = [
+const routes: RouteRecordRaw[] = [
     {
         path: "/",
         component: Index
     },
     {
-        path: "/test",
-        component: Test
+        path: "/search",
+        component: Search,
+        beforeEnter: (to, _, next) => {
+            /* /search => undefined */
+            /* /search?keyword => null */
+            /* /search?keyword= => 長さ0の空文字 */
+            if (to.query.keyword === null || to.query.keyword?.length === 0) {
+                next({path: "/"})
+            } else {
+                next();
+            }
+        }
     }
 ];
 

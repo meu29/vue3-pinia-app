@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from "vue-router";
 import Index from "../pages/index.vue";
 import Search from "../pages/search.vue";
+import Memo from "../pages/memo.vue";
 
 const routes: RouteRecordRaw[] = [
     {
@@ -15,7 +16,18 @@ const routes: RouteRecordRaw[] = [
             /* /search?keyword => null */
             /* /search?keyword= => 長さ0の空文字 */
             if (to.query.keyword === null || to.query.keyword?.length === 0) {
-                next({path: "/"})
+                next({path: "/"});
+            } else {
+                next();
+            }
+        }
+    },
+    {
+        path: "/memo",
+        component: Memo,
+        beforeEnter: (to, _, next) => {
+            if (to.query.id === null || to.query.id?.length === 0) {
+                next({path: "/"});
             } else {
                 next();
             }

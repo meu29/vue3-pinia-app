@@ -5,25 +5,22 @@ import { useMemoStore } from "../stores/memo";
 //import MemoTable from "../components/memo-table.vue";
 
 const text = ref<string>("");
-const { memos, addMemo, deleteMemo } = useMemoStore();
 
-const handleAddButtonClick = (content: string) => {
-    addMemo(content);
-    text.value = "";
+const { allMemos, addMemo, deleteMemo, } = useMemoStore();
+
+
+const handleTableRowClick = (val: any) => {
+    console.log(val)
 }
+
 </script>
 
 <template>
-    <el-input v-model="text" placeholder="文章を入力" rows="6" type="textarea" />
-    <el-button type="primary" @click="handleAddButtonClick(text)">Post!</el-button>
     <h4>最近追加されたメモ</h4>
-    <el-table :data="Object.values(memos)">
-        <el-table-column fixed prop="date" label="追加日" />
-        <el-table-column prop="content" label="コンテンツ" />
-        <el-table-column fixed="right" prop="id" label="操作">
-            <template #default="scope">
-                <el-button @click.prevent="deleteMemo(scope.row.id)">Delete</el-button>
-            </template>
-        </el-table-column> 
-    </el-table>
+    <div v-for="memo in allMemos()" v-bind:key="memo.id">
+        <el-card>
+            <p>{{memo.content}}</p>
+            <router-link style="text-decoration: none; color: inherit;" :to="{path: '/memo', query: {id: memo.id}}">スレッドを表示</router-link>
+        </el-card>
+    </div>
 </template>

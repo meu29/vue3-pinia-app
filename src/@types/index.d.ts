@@ -1,5 +1,7 @@
 type Memo = {
     id: string;
     content: string;
-    date: Date;
+    time: number;
+    parent_memo_id?: string;
+    child_memo_id?: string;
 }

@@ -20,7 +20,7 @@ const keyword = ref<string>("");
 
 <template>
     <el-header style="margin-bottom:4%">
-        <router-link to="/">タイトル未定</router-link>
+        <router-link to="/" style="text-decoration: none; color: inherit;">タイトル未定</router-link>
         <el-input v-model="keyword" class="keyword-input" />
         <el-button type="primary" :icon="Search" @click="router.push(`/search?keyword=${keyword}`)" />
     </el-header>

@@ -36,3 +36,26 @@ const x: string | undefined = undefined;
 //console.log(x as string);
 
 ```
+```
+/* 遷移前リダイレクト */
+const routes: RouteRecordRaw[] = [
+    {
+        path: "/search",
+        component: Search,
+        beforeEnter: (to, _, next) => {
+            /* /search => undefined */
+            /* /search?keyword => null */
+            /* /search?keyword= => 長さ0の空文字 */
+            if (to.query.keyword === null || to.query.keyword?.length === 0) {
+                next({path: "/"});
+            } else {
+                next();
+            }
+        }
+    },
+]
+```
+
+```
+<router-link :to="{path: `/reviews/${app.id}`}">{{app.name}}</router-link>
+```

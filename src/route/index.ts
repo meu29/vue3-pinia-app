@@ -1,37 +1,15 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from "vue-router";
-import Index from "../pages/index.vue";
-import Search from "../pages/search.vue";
-import Memo from "../pages/memo.vue";
+import IndexPage from "../pages/index.vue";
+import ReviewPage from "../pages/review.vue";
 
 const routes: RouteRecordRaw[] = [
     {
         path: "/",
-        component: Index
+        component: IndexPage
     },
     {
-        path: "/search",
-        component: Search,
-        beforeEnter: (to, _, next) => {
-            /* /search => undefined */
-            /* /search?keyword => null */
-            /* /search?keyword= => 長さ0の空文字 */
-            if (to.query.keyword === null || to.query.keyword?.length === 0) {
-                next({path: "/"});
-            } else {
-                next();
-            }
-        }
-    },
-    {
-        path: "/memo",
-        component: Memo,
-        beforeEnter: (to, _, next) => {
-            if (to.query.id === null || to.query.id?.length === 0) {
-                next({path: "/"});
-            } else {
-                next();
-            }
-        }
+        path: "/reviews/:id",
+        component: ReviewPage,
     }
 ];
 

@@ -1,26 +1,63 @@
 <script lang="ts" setup>
 
-import { ref } from "vue";
-import { useMemoStore } from "../stores/memo";
-//import MemoTable from "../components/memo-table.vue";
+import { ref, computed, watch } from "vue";
+import { tokenize } from "wakachigaki";
+import { useApps } from "../hooks/app";
 
-const text = ref<string>("");
+import { GENRES } from "../utils";
 
-const { allMemos, addMemo, deleteMemo, } = useMemoStore();
+import axios from "axios";
 
+const term = ref<string>("出席");
 
-const handleTableRowClick = (val: any) => {
-    console.log(val)
+const { apps, searchApps } = useApps();
+
+const page = ref<number>(1);
+
+const handleClick = () => {
+
+    let counts: Record<string, number> = {}
+    console.log(tokenize("勤務時間"))
+
+    return;
+
+    for (const app of apps.value) {
+        const words = tokenize(app.description).flatMap(word => word.match(/^[ぁ-ん0-9\s]+$/) == null ? word.toLowerCase() : []);
+        for (const word of words) {
+            counts[word] = word in counts ? counts[word] + 1 : 1;
+        }
+    }
+
+    console.log(counts)
+
 }
+
+const getWords = (text: string) => tokenize(text).flatMap(word => word.match(/^[ぁ-ん0-9\s]+$/) == null ? word.toLowerCase() : []);
 
 </script>
 
+<style scoped>
+
+.flex-container {
+    display: flex;
+    flex-direction: row;
+}
+
+</style>
+
 <template>
-    <h4>最近追加されたメモ</h4>
-    <div v-for="memo in allMemos()" v-bind:key="memo.id">
-        <el-card>
-            <p>{{memo.content}}</p>
-            <router-link style="text-decoration: none; color: inherit;" :to="{path: '/memo', query: {id: memo.id}}">スレッドを表示</router-link>
-        </el-card>
+    <el-input v-model="term" />
+    <el-button @click="searchApps(term)">アプリ検索</el-button>
+    <p>ジャンルで検索</p>
+    <div class="flex-container">
+        <el-button type="primary" v-for="genre in GENRES" v-bind:key="genre" @click="searchApps(genre)">{{genre}}</el-button>
     </div>
+    <div v-for="app in apps" v-bind:key="app.id">
+        <p>{{app.name}}</p>
+        <el-button @click="console.log(getWords(app.description))">おせ！</el-button>
+        <router-link :to="{path: `/reviews/${app.id}`}">
+            <el-button>レビューをみる</el-button>
+        </router-link>
+    </div>
+    <el-pagination layout="prev, pager, next" :total="apps.length" v-model:currentPage="page" />
 </template>

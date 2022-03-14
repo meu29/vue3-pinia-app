@@ -1,7 +1,23 @@
-type Memo = {
+type App = {
     id: string;
+    name: string;
+    description: string;
+}
+
+type Review = {
+    id: string;
+    title: string;
     content: string;
-    time: number;
-    parent_memo_id?: string;
-    child_memo_id?: string;
+    rating: number;
+    relation: boolean;
+}
+
+type Condition = {
+    rating: number;
+    all: boolean;
+}
+
+type ItunesApiResponse = {
+    resultCount: number;
+    results: any[];
 }
